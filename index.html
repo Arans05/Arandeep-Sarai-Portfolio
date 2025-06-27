@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arandeep Sarai - University Student Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        .section-title {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            color: #1f2937; /* Gray-900 */
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .btn-primary {
+            display: inline-block;
+            background-color: #4f46e5; /* Indigo-600 */
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            text-decoration: none;
+            font-weight: 600; /* font-semibold */
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #4338ca; /* Indigo-700 */
+        }
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        /* Responsive image styling for projects */
+        .project-image {
+            width: 100%;
+            height: 200px; /* Fixed height for consistency */
+            object-fit: cover; /* Ensures image covers the area, cropping if necessary */
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        /* Custom scroll-behavior for smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-sm py-4 sticky top-0 z-50">
+        <nav class="container flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-gray-900 rounded-lg p-2 hover:bg-gray-100 transition-colors">Arandeep Sarai</a>
+            <ul class="flex space-x-6">
+                <li><a href="#about" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100">About</a></li>
+                <li><a href="#projects" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100">Projects</a></li>
+                <li><a href="#skills" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100">Skills</a></li>
+                <li><a href="#contact" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-20 md:py-32 text-center rounded-b-xl shadow-lg">
+        <div class="container">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down">Hi, I'm Arandeep Sarai</h1>
+            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up">A passionate Computer Science Student.</p>
+            <a href="#projects" class="btn-primary animate-bounce-in">View My Work</a>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="py-16 md:py-24 bg-white rounded-xl my-8 mx-4 shadow-md">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                <div class="md:w-1/3 mb-6 md:mb-0">
+                    <!-- Placeholder image - replace with your professional photo -->
+                    <img src="https://placehold.co/400x400/FFDDC1/A0522D?text=Your+Photo" alt="Your Profile Picture" class="w-full h-auto rounded-full shadow-lg border-4 border-indigo-200">
+                </div>
+                <div class="md:w-2/3 text-gray-700 text-lg leading-relaxed">
+                    <p class="mb-4">
+                        I am a [Your Year, e.g., third-year] Computer Science student at Huddersfield University. My academic journey has equipped me with a strong foundation in [mention 2-3 key areas, e.g., software development, data analysis, project management].
+                    </p>
+                    <p class="mb-4">
+                        I am particularly passionate about [mention a specific area or technology, e.g., building scalable web applications, exploring machine learning algorithms, crafting engaging user experiences]. I love tackling challenging problems and continuously learning new technologies to build impactful solutions.
+                    </p>
+                    <p>
+                        Beyond academics, I enjoy [mention a hobby or interest that showcases soft skills, e.g., collaborating on open-source projects, participating in hackathons, volunteering for tech initiatives]. I am eager to apply my skills in a professional setting and contribute to innovative projects.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 md:py-24 bg-gray-50 rounded-xl my-8 mx-4 shadow-md">
+        <div class="container">
+            <h2 class="section-title">My Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Project Card 1 -->
+                <div class="card transform hover:scale-105 transition-transform duration-300">
+                    <img src="uploaded:Screenshot 2025-06-27 at 17.27.14.jpg-dcc1dd2b-18df-4f82-bf08-f8effc9bc6dd" alt="Uni-life Web Application Screenshot" class="project-image">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Uni-life Web Application (International Student Support)</h3>
+                    <p class="text-gray-600 mb-4">
+                        A web application designed to assist international students with budgeting and navigating university life, offering resources on finances, accommodation, and cultural adaptation.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/Arans05/Uni-life" target="_blank" class="text-indigo-600 hover:underline font-medium">GitHub Repo</a>
+                        <a href="https://Arans05.github.io/Uni-life/" target="_blank" class="text-indigo-600 hover:underline font-medium">Website</a>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="card transform hover:scale-105 transition-transform duration-300">
+                    <img src="https://placehold.co/600x400/FFECEC/FF6347?text=Project+2+Image" alt="Project 2" class="project-image">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Data Analysis Dashboard</h3>
+                    <p class="text-gray-600 mb-4">
+                        Developed an interactive dashboard to visualize [mention type of data, e.g., sales data, climate data] using Python and libraries like Pandas and Matplotlib.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" target="_blank" class="text-indigo-600 hover:underline font-medium">GitHub Repo</a>
+                        <!-- <a href="#" target="_blank" class="text-indigo-600 hover:underline font-medium">Live Demo</a> If applicable -->
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="card transform hover:scale-105 transition-transform duration-300">
+                    <img src="https://placehold.co/600x400/E6F3F7/20B2AA?text=Project+3+Image" alt="Project 3" class="project-image">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Mobile Game Prototype</h3>
+                    <p class="text-gray-600 mb-4">
+                        Designed and developed a basic mobile game prototype using [mention technology, e.g., Unity/C#] focusing on [mention game mechanic/genre, e.g., puzzle mechanics].
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" target="_blank" class="text-indigo-600 hover:underline font-medium">GitHub Repo</a>
+                        <!-- <a href="#" target="_blank" class="text-indigo-600 hover:underline font-medium">Live Demo</a> If applicable -->
+                    </div>
+                </div>
+
+                <!-- Add more project cards as needed -->
+                <!-- <div class="card">...</div> -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-16 md:py-24 bg-white rounded-xl my-8 mx-4 shadow-md">
+        <div class="container">
+            <h2 class="section-title">My Skills</h2>
+            <div class="text-center">
+                <div class="flex flex-wrap justify-center gap-4 text-lg">
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">HTML & CSS</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">JavaScript</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">Python</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">Java</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">SQL</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">Microsoft Azure</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">AWS</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">Data Analysis</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">Problem Solving</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium">Teamwork</span>
+                    <!-- Add more skills as needed -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 md:py-24 bg-gray-50 rounded-xl my-8 mx-4 shadow-md">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="text-center text-gray-700 text-lg mb-8">
+                I'm always open to new opportunities and collaborations. Feel free to reach out!
+            </p>
+            <div class="flex flex-col items-center space-y-4">
+                <a href="https://www.linkedin.com/in/arandeep-s-ba3477162/" target="_blank" class="btn-primary flex items-center">
+                    <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 6.5h-5v16h5V10zM24 16c0-6.42-4.35-9.42-8.5-9.42-4 0-6.06 2.06-7.94 4.15V10H2.5S3 14.92 3 16V26h5V17.58c0-1.04.14-1.93 1.17-1.93 1.22 0 1.7.92 1.7 2.27V26h5V17.06c0-2.33-1.07-4.14-3.72-4.14-1.95 0-2.79 1.16-3.25 1.95V13h-.01z"></path></svg>
+                    Connect on LinkedIn
+                </a>
+                <a href="https://github.com/Arans05" target="_blank" class="btn-primary flex items-center">
+                    <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.417 2.866 8.156 6.839 9.479.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.465-1.11-1.465-.908-.62.069-.608.069-.608 1.007.07 1.532 1.03 1.532 1.03.89 1.528 2.335 1.085 2.902.829.091-.643.354-1.085.645-1.336-2.22-.253-4.555-1.11-4.555-4.945 0-1.092.39-1.983 1.03-2.684-.104-.254-.447-1.274.098-2.65 0 0 .84-.27 2.75 1.025A9.303 9.303 0 0112 5.05c.85.006 1.7.11 2.502.324 1.902-1.295 2.74-1.025 2.74-1.025.546 1.376.203 2.396.098 2.65.64.701 1.03 1.592 1.03 2.684 0 3.843-2.339 4.686-4.566 4.935.359.307.678.915.678 1.846 0 1.335-.012 2.41-.012 2.727 0 .268.18.579.688.482C21.137 20.187 24 16.448 24 12.017 24 6.484 19.522 2 14 2h-2z" clip-rule="evenodd"></path></svg>
+                    My GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 text-center rounded-t-xl shadow-inner">
+        <div class="container">
+            <p>&copy; 2024 Arandeep Sarai. All rights reserved.</p>
+            <p class="mt-2">Built with ❤️ and Tailwind CSS.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
