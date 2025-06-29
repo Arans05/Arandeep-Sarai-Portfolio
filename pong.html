@@ -1,1 +1,391 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Pong Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a202c; /* Dark background for game */
+            color: #e2e8f0; /* Light text color */
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        canvas {
+            background-color: #000;
+            border: 2px solid #667eea; /* Indigo-500 for border */
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1); /* Deeper shadow */
+            display: block;
+            touch-action: none; /* Prevent default touch behavior */
+            max-width: 90vw; /* Responsive width */
+            max-height: 80vh; /* Responsive height */
+        }
+        .game-info {
+            margin-top: 1.5rem;
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            text-align: center;
+        }
+        .message-box {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            font-size: 1.5rem;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+        .controls {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .control-button {
+            background-color: #4f46e5; /* Indigo-600 */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 150px; /* Fixed width for consistency */
+        }
+        .control-button:hover {
+            background-color: #4338ca; /* Indigo-700 */
+            transform: translateY(-2px);
+        }
+        .control-button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        @media (max-width: 768px) {
+            .game-info {
+                font-size: 1rem;
+            }
+            .control-button {
+                width: 120px;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            canvas {
+                max-width: 95vw;
+                max-height: 70vh;
+            }
+            .controls .flex {
+                flex-direction: row; /* Keep touch controls in a row on small screens */
+                flex-wrap: wrap; /* Allow wrapping if too many buttons */
+                justify-content: center;
+                gap: 0.5rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-info" id="gameInfo">Player 1: 0 - Player 2: 0</div>
+    <canvas id="pongCanvas"></canvas>
+
+    <div class="controls">
+        <button id="startButton" class="control-button">Start Game</button>
+        <button id="resetButton" class="control-button">Reset Game</button>
+        <!-- Touch controls for mobile -->
+        <div class="flex mt-4 space-x-4 md:hidden">
+            <button id="paddle1Up" class="control-button">P1 Up</button>
+            <button id="paddle1Down" class="control-button">P1 Down</button>
+            <button id="paddle2Up" class="control-button">P2 Up</button>
+            <button id="paddle2Down" class="control-button">P2 Down</button>
+        </div>
+    </div>
+
+    <div id="messageBox" class="message-box"></div>
+
+    <script>
+        const canvas = document.getElementById('pongCanvas');
+        const ctx = canvas.getContext('2d');
+        const gameInfo = document.getElementById('gameInfo');
+        const messageBox = document.getElementById('messageBox');
+        const startButton = document.getElementById('startButton');
+        const resetButton = document.getElementById('resetButton');
+
+        // Touch control buttons
+        const paddle1UpBtn = document.getElementById('paddle1Up');
+        const paddle1DownBtn = document.getElementById('paddle1Down');
+        const paddle2UpBtn = document.getElementById('paddle2Up');
+        const paddle2DownBtn = document.getElementById('paddle2Down');
+
+
+        let gameRunning = false;
+        let animationFrameId;
+
+        // Game parameters
+        const PADDLE_WIDTH = 10;
+        const PADDLE_HEIGHT = 100;
+        const BALL_RADIUS = 7;
+        const INITIAL_BALL_SPEED = 5;
+        const MAX_SCORE = 5;
+
+        // Game state
+        let paddle1Y, paddle2Y;
+        let ballX, ballY;
+        let ballSpeedX, ballSpeedY;
+        let player1Score, player2Score;
+
+        // Keyboard input
+        let upArrowPressed = false;
+        let downArrowPressed = false;
+        let wPressed = false;
+        let sPressed = false;
+
+        // Function to set canvas size responsively
+        function setCanvasSize() {
+            // Increased maximum width to make the board bigger
+            const desiredWidth = Math.min(window.innerWidth * 0.95, 1000); // Max 1000px, 95% of viewport width
+            const desiredHeight = desiredWidth * (2 / 3); // Maintain 3:2 aspect ratio
+
+            canvas.width = desiredWidth;
+            canvas.height = desiredHeight;
+
+            // Recenter elements if the game is reset or initialized
+            resetGame();
+        }
+
+        // Initialize game state
+        function initGame() {
+            paddle1Y = canvas.height / 2 - PADDLE_HEIGHT / 2;
+            paddle2Y = canvas.height / 2 - PADDLE_HEIGHT / 2;
+            resetBall();
+            player1Score = 0;
+            player2Score = 0;
+            updateScoreDisplay();
+            gameRunning = false;
+            showMessage("Press 'Start Game' to begin!", true);
+        }
+
+        // Reset ball position and speed
+        function resetBall() {
+            ballX = canvas.width / 2;
+            ballY = canvas.height / 2;
+            ballSpeedX = (Math.random() > 0.5 ? 1 : -1) * INITIAL_BALL_SPEED; // Random initial direction
+            ballSpeedY = (Math.random() * 2 - 1) * INITIAL_BALL_SPEED * 0.5; // Slightly random Y speed
+        }
+
+        // Update score display
+        function updateScoreDisplay() {
+            gameInfo.textContent = `Player 1: ${player1Score} - Player 2: ${player2Score}`;
+        }
+
+        // Show a message box
+        function showMessage(message, autoHide = false) {
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            if (autoHide) {
+                setTimeout(() => {
+                    messageBox.style.display = 'none';
+                }, 3000); // Hide after 3 seconds
+            }
+        }
+
+        // Hide message box
+        function hideMessage() {
+            messageBox.style.display = 'none';
+        }
+
+        // Draw everything
+        function draw() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw paddles
+            ctx.fillStyle = '#667eea'; /* Indigo-500 */
+            ctx.fillRect(0, paddle1Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+            ctx.fillRect(canvas.width - PADDLE_WIDTH, paddle2Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+            // Draw ball
+            ctx.beginPath();
+            ctx.arc(ballX, ballY, BALL_RADIUS, 0, Math.PI * 2);
+            ctx.fillStyle = '#fed7aa'; /* Orange-200 */
+            ctx.fill();
+
+            // Draw center dashed line
+            ctx.strokeStyle = '#a0aec0'; /* Gray-500 */
+            ctx.lineWidth = 3;
+            ctx.setLineDash([10, 10]);
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.stroke();
+            ctx.setLineDash([]); // Reset line dash
+        }
+
+        // Game logic update
+        function update() {
+            if (!gameRunning) return;
+
+            // Move paddles based on input
+            if (wPressed) paddle1Y -= 7;
+            if (sPressed) paddle1Y += 7;
+            if (upArrowPressed) paddle2Y -= 7;
+            if (downArrowPressed) paddle2Y += 7;
+
+            // Keep paddles within canvas bounds
+            paddle1Y = Math.max(0, Math.min(paddle1Y, canvas.height - PADDLE_HEIGHT));
+            paddle2Y = Math.max(0, Math.min(paddle2Y, canvas.height - PADDLE_HEIGHT));
+
+            // Move ball
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            // Ball collision with top/bottom walls
+            if (ballY - BALL_RADIUS < 0 || ballY + BALL_RADIUS > canvas.height) {
+                ballSpeedY *= -1;
+            }
+
+            // Ball collision with paddles
+            // Player 1 paddle
+            if (ballX - BALL_RADIUS < PADDLE_WIDTH && ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT) {
+                ballSpeedX *= -1.05; // Increase speed slightly on hit
+                ballSpeedY = (ballY - (paddle1Y + PADDLE_HEIGHT / 2)) * 0.2; // Angle deflection based on hit point
+            }
+            // Player 2 paddle
+            else if (ballX + BALL_RADIUS > canvas.width - PADDLE_WIDTH && ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT) {
+                ballSpeedX *= -1.05; // Increase speed slightly on hit
+                ballSpeedY = (ballY - (paddle2Y + PADDLE_HEIGHT / 2)) * 0.2; // Angle deflection based on hit point
+            }
+
+            // Ball out of bounds (scoring)
+            if (ballX - BALL_RADIUS < 0) { // Player 2 scores
+                player2Score++;
+                updateScoreDisplay();
+                if (player2Score >= MAX_SCORE) {
+                    endGame("Player 2 Wins!");
+                } else {
+                    resetBall();
+                }
+            } else if (ballX + BALL_RADIUS > canvas.width) { // Player 1 scores
+                player1Score++;
+                updateScoreDisplay();
+                if (player1Score >= MAX_SCORE) {
+                    endGame("Player 1 Wins!");
+                } else {
+                    resetBall();
+                }
+            }
+        }
+
+        // Game loop
+        function gameLoop() {
+            update();
+            draw();
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        // End game function
+        function endGame(message) {
+            gameRunning = false;
+            cancelAnimationFrame(animationFrameId);
+            showMessage(message + " Press 'Reset Game' to play again.");
+        }
+
+        // Start game handler
+        startButton.addEventListener('click', () => {
+            if (!gameRunning) {
+                hideMessage();
+                gameRunning = true;
+                resetBall(); // Ensure ball starts fresh on game start
+                animationFrameId = requestAnimationFrame(gameLoop);
+            }
+        });
+
+        // Reset game handler
+        resetButton.addEventListener('click', () => {
+            cancelAnimationFrame(animationFrameId); // Stop any ongoing animation
+            initGame(); // Reset all game parameters
+        });
+
+        // Keyboard Event Listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') upArrowPressed = true;
+            if (e.key === 'ArrowDown') downArrowPressed = true;
+            if (e.key === 'w' || e.key === 'W') wPressed = true;
+            if (e.key === 's' || e.key === 'S') sPressed = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowUp') upArrowPressed = false;
+            if (e.key === 'ArrowDown') downArrowPressed = false;
+            if (e.key === 'w' || e.key === 'W') wPressed = false;
+            if (e.key === 's' || e.key === 'S') sPressed = false;
+        });
+
+        // Touch Event Listeners for mobile paddles
+        function setupPaddleTouchControls(button, paddleNum, direction) {
+            let intervalId;
+            const movePaddle = () => {
+                if (!gameRunning) return;
+                if (paddleNum === 1) {
+                    paddle1Y += (direction === 'up' ? -7 : 7);
+                    paddle1Y = Math.max(0, Math.min(paddle1Y, canvas.height - PADDLE_HEIGHT));
+                } else if (paddleNum === 2) {
+                    paddle2Y += (direction === 'up' ? -7 : 7);
+                    paddle2Y = Math.max(0, Math.min(paddle2Y, canvas.height - PADDLE_HEIGHT));
+                }
+            };
+
+            button.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent scrolling
+                intervalId = setInterval(movePaddle, 1000 / 60); // Roughly 60 FPS
+            });
+
+            const stopMoving = () => {
+                clearInterval(intervalId);
+            };
+
+            button.addEventListener('touchend', stopMoving);
+            button.addEventListener('touchcancel', stopMoving);
+        }
+
+        // Only set up touch controls if the elements exist (i.e., we are on a small screen where they are visible)
+        if (paddle1UpBtn) setupPaddleTouchControls(paddle1UpBtn, 1, 'up');
+        if (paddle1DownBtn) setupPaddleTouchControls(paddle1DownBtn, 1, 'down');
+        if (paddle2UpBtn) setupPaddleTouchControls(paddle2UpBtn, 2, 'up');
+        if (paddle2DownBtn) setupPaddleTouchControls(paddle2DownBtn, 2, 'down');
+
+
+        // Initialize game when window loads and on resize
+        window.onload = () => {
+            setCanvasSize();
+            initGame();
+        };
+
+        window.addEventListener('resize', () => {
+            setCanvasSize();
+            // No need to call initGame here, setCanvasSize calls resetGame which is sufficient
+        });
+
+        // Function to reset the game state completely
+        function resetGame() {
+            cancelAnimationFrame(animationFrameId); // Stop any ongoing animation
+            initGame(); // Reset all game parameters
+            draw(); // Draw the initial state
+        }
+    </script>
+</body>
+</html>
