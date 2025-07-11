@@ -246,15 +246,25 @@
             justify-content: center;
             position: relative; /* For the scroll arrow */
         }
+
+        /* AS Logo Image Styling */
+        .as-logo-img {
+            width: 150px; /* Adjust size as needed */
+            height: auto; /* Maintain aspect ratio */
+            margin-bottom: 1.5rem; /* Space below logo */
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3)); /* Subtle shadow for image */
+        }
     </style>
 </head>
 <body>
 
     <!-- Hero Section (Full screen first) -->
     <section class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-20 md:py-32 text-center rounded-b-xl shadow-lg hero-section">
-        <div class="container">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down">Hi, I'm Arandeep Sarai</h1>
-            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up">A passionate Computer Science Student.</p>
+        <div class="container flex flex-col items-center justify-center">
+            <!-- AS Logo (Image) -->
+            <img src="ASlogo.png" alt="Arandeep Sarai Logo" class="as-logo-img animate-fade-in-down" onerror="this.onerror=null;this.src='https://placehold.co/150x150/000000/FFFFFF?text=AS';">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down">Arandeep Sarai</h1>
+            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up"></p> <!-- Empty subheading as requested -->
             <a href="#projects" class="btn-primary animate-bounce-in">View My Work</a>
         </div>
         <!-- Scroll Down Arrow -->
@@ -268,7 +278,7 @@
     <!-- Header/Navigation (Appears after hero, then becomes sticky) -->
     <header id="mainHeader" class="py-4 w-full">
         <nav class="container flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold rounded-lg p-2 transition-colors duration-300 ease-in-out nav-link">Arandeep Sarai</a>
+            <a href="#" class="text-2xl font-bold rounded-lg p-2 transition-colors duration-0 ease-in-out nav-link">Arandeep Sarai</a>
             
             <!-- Desktop Navigation Links -->
             <ul class="flex space-x-6 desktop-nav-links">
@@ -416,7 +426,7 @@
                 <!-- Mini Game Card 2: Classic Snake Game -->
                 <div class="card transform hover:scale-105 transition-transform duration-300">
                     <!-- Updated src to the provided PNG filename for the portfolio card -->
-                    <img src="Screenshot 2025-07-11 at 18.43.17.png" alt="Classic Snake Game Screenshot" class="project-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/D0F0C0/4CAF50?text=Image+Load+Error';">
+                    <img src="https://placehold.co/600x400/D0F0C0/4CAF50?text=Snake+Game+Image" alt="Classic Snake Game Screenshot" class="project-image">
                     <h3 class="text-xl font-semibold text-gray-900 mb-2">Classic Snake Game</h3>
                     <p class="text-gray-600 mb-4">
                         A timeless arcade game where you control a snake, eating food to grow longer while avoiding collisions with walls and its own tail.
@@ -490,30 +500,35 @@
     <footer class="bg-gray-800 text-white py-8 text-center rounded-t-xl shadow-inner">
         <div class="container">
             <p>&copy; 2025 Arandeep Sarai. All rights reserved.</p>
-          
+            <p class="mt-2">Built with ❤️ and Tailwind CSS.</p>
         </div>
     </footer>
 
     <script>
         // JavaScript for mobile hamburger menu
-        const hamburgerMenu = document.getElementById('hamburgerMenu');
-        const mobileNavLinks = document.getElementById('mobileNavLinks');
+        let hamburgerMenu;
+        let mobileNavLinks;
 
-        // Ensure elements exist before adding event listeners
-        if (hamburgerMenu && mobileNavLinks) {
-            hamburgerMenu.addEventListener('click', () => {
-                mobileNavLinks.classList.toggle('open');
-            });
-
-            // Close mobile menu when a link is clicked
-            mobileNavLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileNavLinks.classList.remove('open');
+        // Query elements inside window.onload to ensure they are available
+        window.onload = () => {
+            hamburgerMenu = document.getElementById('hamburgerMenu');
+            mobileNavLinks = document.getElementById('mobileNavLinks');
+            
+            // Add event listeners only after elements are found
+            if (hamburgerMenu && mobileNavLinks) {
+                hamburgerMenu.addEventListener('click', () => {
+                    mobileNavLinks.classList.toggle('open');
                 });
-            });
-        }
+
+                // Close mobile menu when a link is clicked
+                mobileNavLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNavLinks.classList.remove('open');
+                    });
+                });
+            }
+        };
     </script>
 
 </body>
-
 </html>
