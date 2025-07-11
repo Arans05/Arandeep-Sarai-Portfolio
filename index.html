@@ -245,11 +245,11 @@
             align-items: center;
             justify-content: center;
             position: relative; /* For the scroll arrow */
-            /* New split background styling */
+            /* New split background styling to match ASlogo.png.001.jpg */
             background-color: #ffffff; /* Base white background */
             background-image:
-                /* Solid blue gradient for the left side */
-                linear-gradient(to right, #4f46e5 50%, transparent 50%),
+                /* Gradient for the left side (light blue to white, matching logo) */
+                linear-gradient(to right, #ADD8E6 0%, #FFFFFF 50%), /* Light blue to white */
                 /* Pattern for the right side (subtle diagonal lines) - now darker blue */
                 repeating-linear-gradient(
                     45deg,
@@ -287,10 +287,10 @@
     <section class="text-gray-900 py-20 md:py-32 text-center rounded-b-xl shadow-lg hero-section">
         <div class="container flex flex-col items-center justify-center">
             <!-- AS Logo (Image) -->
-            <img src="ASlogo.png.001.png" alt="Arandeep Sarai Logo" class="as-logo-img animate-fade-in-down" onerror="this.onerror=null;this.src='https://placehold.co/150x150/000000/FFFFFF?text=AS';">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down text-white">Arandeep Sarai</h1>
-            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up text-white"></p> <!-- Empty subheading as requested -->
-            <a href="#projects" class="btn-primary bg-white text-indigo-600 animate-bounce-in">View My Work</a>
+            <img src="ASlogo.png.001.jpg" alt="Arandeep Sarai Logo" class="as-logo-img animate-fade-in-down" onerror="this.onerror=null;this.src='https://placehold.co/150x150/000000/FFFFFF?text=AS';">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down text-gray-900">Arandeep Sarai</h1>
+            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up text-gray-900"></p> <!-- Empty subheading as requested -->
+            <a href="#projects" class="btn-primary bg-gray-900 text-white animate-bounce-in">View My Work</a>
         </div>
         <!-- Scroll Down Arrow -->
         <a href="#about" class="scroll-down-arrow">
