@@ -132,6 +132,9 @@
         let dy; // Vertical velocity
         let changingDirection = false; // To prevent multiple direction changes per frame
 
+        // Removed backgroundImage for the game canvas itself
+
+
         // Function to set canvas size responsively
         function setCanvasSize() {
             const desiredWidth = Math.min(window.innerWidth * 0.9, 600);
@@ -184,7 +187,9 @@
 
         // Draw everything
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+            // Reverted canvas background to solid color (grass)
+            ctx.fillStyle = '#388E3C'; /* Darker green for grass background */
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             // Draw food (apple-like)
             ctx.fillStyle = '#FF0000'; /* Red for apple */
@@ -357,3 +362,4 @@
     </script>
 </body>
 </html>
+
