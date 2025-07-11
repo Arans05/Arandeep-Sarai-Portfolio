@@ -12,6 +12,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6; /* Light gray background */
             color: #333;
+            /* No padding-top on body, header will appear in normal flow */
         }
         .container {
             max-width: 1200px;
@@ -130,15 +131,16 @@
         .hamburger-menu .bar {
             width: 25px;
             height: 3px;
-            background-color: #333;
+            background-color: #333; /* Always dark for static header */
             margin: 4px 0;
             transition: 0.4s;
             border-radius: 2px;
         }
+
         .mobile-nav-links {
             display: none; /* Hidden by default */
             flex-direction: column;
-            position: absolute;
+            position: fixed; /* Use fixed for mobile menu overlay */
             top: 0;
             left: 0;
             width: 100%;
@@ -147,7 +149,7 @@
             justify-content: center;
             align-items: center;
             gap: 20px;
-            z-index: 55; /* Below hamburger */
+            z-index: 999; /* High z-index for mobile overlay */
             transform: translateX(100%); /* Start off-screen */
             transition: transform 0.5s ease-in-out;
         }
@@ -188,33 +190,93 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        @media (max-width: 768px) {
-            .hamburger-menu {
-                display: flex; /* Show hamburger on mobile */
+        /* Scroll Down Arrow Animation (remains in hero) */
+        .scroll-down-arrow {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .scroll-down-arrow svg {
+            width: 40px;
+            height: 40px;
+            color: white;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        .scroll-down-arrow svg:hover {
+            opacity: 1;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
             }
-            .desktop-nav-links {
-                display: none; /* Hide desktop nav on mobile */
+            40% {
+                transform: translateY(-10px) translateX(-50%);
             }
-            .header .container {
-                justify-content: space-between; /* Space out logo and hamburger */
+            60% {
+                transform: translateY(-5px) translateX(-50%);
             }
+        }
+
+        /* Header is now a regular block element */
+        header {
+            background-color: #ffffff; /* Always white */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Always has shadow */
+            position: sticky; /* Make it sticky when it comes into view */
+            top: 0;
+            z-index: 1000; /* Ensure it stays on top when sticky */
+        }
+        header .nav-link {
+            color: #333; /* Always dark links */
+        }
+        header .nav-link:hover {
+            color: #4f46e5; /* Indigo on hover */
+            background-color: #f3f4f6; /* Light gray hover */
+        }
+
+        /* Hero section is full screen and no padding adjustment on body */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative; /* For the scroll arrow */
         }
     </style>
 </head>
 <body>
 
-    <!-- Header/Navigation -->
-    <header class="bg-white shadow-sm py-4 sticky top-0 z-50">
+    <!-- Hero Section (Full screen first) -->
+    <section class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-20 md:py-32 text-center rounded-b-xl shadow-lg hero-section">
+        <div class="container">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down">Hi, I'm Arandeep Sarai</h1>
+            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up">A passionate Computer Science Student.</p>
+            <a href="#projects" class="btn-primary animate-bounce-in">View My Work</a>
+        </div>
+        <!-- Scroll Down Arrow -->
+        <a href="#about" class="scroll-down-arrow">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+        </a>
+    </section>
+
+    <!-- Header/Navigation (Appears after hero, then becomes sticky) -->
+    <header id="mainHeader" class="py-4 w-full">
         <nav class="container flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-gray-900 rounded-lg p-2 hover:bg-gray-100 transition-colors">Arandeep Sarai</a>
+            <a href="#" class="text-2xl font-bold rounded-lg p-2 transition-colors duration-300 ease-in-out nav-link">Arandeep Sarai</a>
             
             <!-- Desktop Navigation Links -->
             <ul class="flex space-x-6 desktop-nav-links">
-                <li><a href="#about" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100">About</a></li>
-                <li><a href="#projects" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100">Projects</a></li>
+                <li><a href="#about" class="font-medium p-2 rounded-lg nav-link">About</a></li>
+                <li><a href="#projects" class="font-medium p-2 rounded-lg nav-link">Projects</a></li>
                 
                 <li class="dropdown">
-                    <a href="#minigames" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100">
+                    <a href="#minigames" class="font-medium p-2 rounded-lg nav-link">
                         Mini Games <span style="font-size: 0.7em; vertical-align: middle;">▼</span>
                     </a>
                     <div class="dropdown-content">
@@ -223,8 +285,8 @@
                         <a href="sequence_memory.html" target="_blank">Sequence Memory</a>
                     </div>
                 </li>
-                <li><a href="#skills" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100">Skills</a></li>
-                <li><a href="#contact" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100">Contact</a></li>
+                <li><a href="#skills" class="font-medium p-2 rounded-lg nav-link">Skills</a></li>
+                <li><a href="#contact" class="font-medium p-2 rounded-lg nav-link">Contact</a></li>
             </ul>
 
             <!-- Hamburger Menu for Mobile -->
@@ -254,15 +316,6 @@
             </ul>
         </nav>
     </header>
-
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-20 md:py-32 text-center rounded-b-xl shadow-lg min-h-screen flex items-center justify-center">
-        <div class="container">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down">Hi, I'm Arandeep Sarai</h1>
-            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up">A passionate Computer Science Student.</p>
-            <a href="#projects" class="btn-primary animate-bounce-in">View My Work</a>
-        </div>
-    </section>
 
     <!-- About Me Section -->
     <section id="about" class="py-16 md:py-24 bg-white rounded-xl my-8 mx-4 shadow-md">
@@ -437,7 +490,7 @@
     <footer class="bg-gray-800 text-white py-8 text-center rounded-t-xl shadow-inner">
         <div class="container">
             <p>&copy; 2025 Arandeep Sarai. All rights reserved.</p>
-            <p class="mt-2">Built with ❤️ and Tailwind CSS.</p>
+          
         </div>
     </footer>
 
@@ -446,17 +499,21 @@
         const hamburgerMenu = document.getElementById('hamburgerMenu');
         const mobileNavLinks = document.getElementById('mobileNavLinks');
 
-        hamburgerMenu.addEventListener('click', () => {
-            mobileNavLinks.classList.toggle('open');
-        });
-
-        // Close mobile menu when a link is clicked
-        mobileNavLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNavLinks.classList.remove('open');
+        // Ensure elements exist before adding event listeners
+        if (hamburgerMenu && mobileNavLinks) {
+            hamburgerMenu.addEventListener('click', () => {
+                mobileNavLinks.classList.toggle('open');
             });
-        });
+
+            // Close mobile menu when a link is clicked
+            mobileNavLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNavLinks.classList.remove('open');
+                });
+            });
+        }
     </script>
 
 </body>
+
 </html>
