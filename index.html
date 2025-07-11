@@ -245,6 +245,29 @@
             align-items: center;
             justify-content: center;
             position: relative; /* For the scroll arrow */
+            /* New split background styling */
+            background-color: #ffffff; /* Base white background */
+            background-image:
+                /* Solid blue gradient for the left side */
+                linear-gradient(to right, #4f46e5 50%, transparent 50%),
+                /* Pattern for the right side (subtle diagonal lines) - now darker blue */
+                repeating-linear-gradient(
+                    45deg,
+                    rgba(26, 32, 44, 0.12) 0px, /* Darker blue shade, more opaque */
+                    rgba(26, 32, 44, 0.12) 1px,
+                    transparent 1px,
+                    transparent 10px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    rgba(26, 32, 44, 0.12) 0px, /* Darker blue shade, more opaque */
+                    rgba(26, 32, 44, 0.12) 1px,
+                    transparent 1px,
+                    transparent 10px
+                );
+            background-size: 100% 100%, 20px 20px, 20px 20px; /* Sizes for each layer */
+            background-position: 0 0, 0 0, 0 0; /* Positions for each layer */
+            background-repeat: no-repeat, repeat, repeat; /* No repeat for solid, repeat for patterns */
         }
 
         /* AS Logo Image Styling */
@@ -261,13 +284,13 @@
 <body>
 
     <!-- Hero Section (Full screen first) -->
-    <section class="bg-white text-gray-900 py-20 md:py-32 text-center rounded-b-xl shadow-lg hero-section">
+    <section class="text-gray-900 py-20 md:py-32 text-center rounded-b-xl shadow-lg hero-section">
         <div class="container flex flex-col items-center justify-center">
             <!-- AS Logo (Image) -->
-            <img src="ASlogo.key" alt="Arandeep Sarai Logo" class="as-logo-img animate-fade-in-down" onerror="this.onerror=null;this.src='https://placehold.co/150x150/000000/FFFFFF?text=AS';">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down">Arandeep Sarai</h1>
-            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up"></p> <!-- Empty subheading as requested -->
-            <a href="#projects" class="btn-primary bg-gray-900 text-white animate-bounce-in">View My Work</a>
+            <img src="ASlogo.png.001.png" alt="Arandeep Sarai Logo" class="as-logo-img animate-fade-in-down" onerror="this.onerror=null;this.src='https://placehold.co/150x150/000000/FFFFFF?text=AS';">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down text-white">Arandeep Sarai</h1>
+            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up text-white"></p> <!-- Empty subheading as requested -->
+            <a href="#projects" class="btn-primary bg-white text-indigo-600 animate-bounce-in">View My Work</a>
         </div>
         <!-- Scroll Down Arrow -->
         <a href="#about" class="scroll-down-arrow">
@@ -428,7 +451,7 @@
                 <!-- Mini Game Card 2: Classic Snake Game -->
                 <div class="card transform hover:scale-105 transition-transform duration-300">
                     <!-- Updated src to the provided PNG filename for the portfolio card -->
-                    <img src="Screenshot 2025-07-11 at 18.43.17.png" alt="Classic Snake Game Screenshot" class="project-image">
+                    <img src="Screenshot 2025-07-11 at 18.43.17.png" alt="Classic Snake Game Screenshot" class="project-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/D0F0C0/4CAF50?text=Image+Load+Error';">
                     <h3 class="text-xl font-semibold text-gray-900 mb-2">Classic Snake Game</h3>
                     <p class="text-gray-600 mb-4">
                         A timeless arcade game where you control a snake, eating food to grow longer while avoiding collisions with walls and its own tail.
