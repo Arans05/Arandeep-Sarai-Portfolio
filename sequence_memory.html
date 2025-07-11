@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequence Memory Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text */
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3x3 grid */
+            gap: 10px;
+            padding: 20px;
+            background-color: #2d3748; /* Darker gray background for the grid */
+            border-radius: 1rem;
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.4), 0 5px 10px -5px rgba(0, 0, 0, 0.2);
+            max-width: 450px; /* Max width for the game grid (3 * 130px + 2 * 10px = 410px) */
+            width: 90vw; /* Responsive width */
+            aspect-ratio: 1 / 1; /* Keep it square */
+        }
+        .square {
+            width: 100%;
+            padding-bottom: 100%; /* Makes squares responsive and square */
+            background-color: #4a5568; /* Default square color */
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            position: relative; /* For padding-bottom trick */
+        }
+        .square.active {
+            background-color: #63b3ed; /* Light up color (blue) */
+        }
+        .square.correct {
+            background-color: #48bb78; /* Correct color (green) */
+        }
+        .square.incorrect {
+            background-color: #e53e3e; /* Incorrect color (red) */
+        }
+        .game-info-bar {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f6ad55;
+            text-align: center;
+        }
+        .message-box {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 2rem 3rem;
+            border-radius: 1rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            font-size: 1.8em;
+            text-align: center;
+            display: flex; /* Always flex for messages */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            min-width: 300px;
+        }
+        .message-box p {
+            margin-bottom: 1rem;
+        }
+        .control-button {
+            background-color: #63b3ed; /* Blue-400 */
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 0.75rem;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            min-width: 160px;
+            margin-top: 1rem;
+        }
+        .control-button:hover {
+            background-color: #4299e1; /* Blue-500 */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px -2px rgba(0, 0, 0, 0.2);
+        }
+        .control-button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-info-bar" id="gameInfo">Level: 1</div>
+    <div class="game-container" id="gameBoard"></div>
+
+    <div id="messageBox" class="message-box">
+        <p>Watch the sequence of lights, then repeat it!</p>
+        <button id="startButton" class="control-button">Start Game</button>
+    </div>
+
+    <script>
+        const gameBoard = document.getElementById('gameBoard');
+        const gameInfo = document.getElementById('gameInfo');
+        const messageBox = document.getElementById('messageBox');
+        const startButton = document.getElementById('startButton');
+
+        const GRID_SIZE = 3; // For a 3x3 grid
+        let squares = [];
+        let sequence = [];
+        let playerSequence = [];
+        let level = 1;
+        let canClick = false;
+        let sequenceDisplaying = false;
+
+        // Initialize the grid
+        function initGrid() {
+            gameBoard.innerHTML = '';
+            squares = [];
+            for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
+                const square = document.createElement('div');
+                square.classList.add('square');
+                square.dataset.index = i;
+                square.addEventListener('click', () => handleSquareClick(square));
+                gameBoard.appendChild(square);
+                squares.push(square);
+            }
+        }
+
+        // Reset game state
+        function resetGame() {
+            sequence = [];
+            playerSequence = [];
+            level = 1;
+            canClick = false;
+            sequenceDisplaying = false;
+            updateGameInfo();
+            initGrid(); // Re-initialize grid to clear any active/correct/incorrect states
+            showMessage("Watch the sequence of lights, then repeat it!", true);
+        }
+
+        // Update game info display
+        function updateGameInfo() {
+            gameInfo.textContent = `Level: ${level}`;
+        }
+
+        // Show a message box
+        function showMessage(message, showStartButton) {
+            messageBox.innerHTML = `<p>${message}</p>`;
+            if (showStartButton) {
+                const btn = document.createElement('button');
+                btn.id = 'startButton';
+                btn.classList.add('control-button');
+                btn.textContent = 'Start Game';
+                btn.addEventListener('click', startGame);
+                messageBox.appendChild(btn);
+            } else {
+                // If no start button, add a close button for game over
+                const closeBtn = document.createElement('button');
+                closeBtn.id = 'closeButton';
+                closeBtn.classList.add('control-button');
+                closeBtn.textContent = 'Close';
+                closeBtn.addEventListener('click', () => messageBox.style.display = 'none');
+                messageBox.appendChild(closeBtn);
+            }
+            messageBox.style.display = 'flex';
+        }
+
+        // Hide message box
+        function hideMessage() {
+            messageBox.style.display = 'none';
+        }
+
+        // Start the game (or next round)
+        function startGame() {
+            hideMessage();
+            canClick = false;
+            playerSequence = [];
+            sequenceDisplaying = true;
+            generateSequence();
+            displaySequence(0);
+        }
+
+        // Generate next sequence
+        function generateSequence() {
+            const randomIndex = Math.floor(Math.random() * squares.length);
+            sequence.push(randomIndex);
+        }
+
+        // Display the sequence to the player
+        function displaySequence(index) {
+            if (index < sequence.length) {
+                const squareToLight = squares[sequence[index]];
+                squareToLight.classList.add('active');
+                setTimeout(() => {
+                    squareToLight.classList.remove('active');
+                    setTimeout(() => {
+                        displaySequence(index + 1);
+                    }, 200); // Short delay between lights
+                }, 500); // How long each light stays on
+            } else {
+                sequenceDisplaying = false;
+                canClick = true; // Allow player to click after sequence is shown
+            }
+        }
+
+        // Handle player clicking a square
+        function handleSquareClick(square) {
+            if (!canClick || sequenceDisplaying) return;
+
+            const clickedIndex = parseInt(square.dataset.index);
+            playerSequence.push(clickedIndex);
+
+            // Give immediate feedback
+            square.classList.add('active');
+            setTimeout(() => {
+                square.classList.remove('active');
+            }, 100);
+
+            // Check if player's input matches the sequence so far
+            if (playerSequence[playerSequence.length - 1] !== sequence[playerSequence.length - 1]) {
+                // Incorrect sequence
+                square.classList.add('incorrect');
+                canClick = false;
+                setTimeout(() => {
+                    endGame(`Game Over! You reached Level ${level}.`);
+                }, 500);
+                return;
+            }
+
+            // If player completed the current level's sequence
+            if (playerSequence.length === sequence.length) {
+                // Correct sequence for this level
+                canClick = false; // Prevent further clicks until next round
+                level++;
+                updateGameInfo();
+                setTimeout(() => {
+                    // Flash all squares green to indicate success
+                    squares.forEach(s => s.classList.add('correct'));
+                    setTimeout(() => {
+                        squares.forEach(s => s.classList.remove('correct'));
+                        // Start next round
+                        startGame();
+                    }, 800);
+                }, 500);
+            }
+        }
+
+        // End game function
+        function endGame(message) {
+            canClick = false;
+            showMessage(`${message} Press 'Play Again' to restart.`, false); // No start button, offer play again
+            const playAgainBtn = document.getElementById('closeButton'); // Re-using closeButton ID for Play Again
+            playAgainBtn.textContent = 'Play Again';
+            playAgainBtn.removeEventListener('click', () => messageBox.style.display = 'none'); // Remove old listener
+            playAgainBtn.addEventListener('click', resetGame); // Add new listener for reset
+        }
+
+        // Initialize game on window load
+        window.onload = resetGame; // Call resetGame to set up initial state and message
+    </script>
+</body>
+</html>
