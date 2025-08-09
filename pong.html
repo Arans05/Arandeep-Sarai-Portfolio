@@ -338,16 +338,22 @@
     pauseBtn.disabled = true;
     startBtn.disabled = false;
     showMessage('Game Paused. Press Start to Resume.', 0);
+    cancelAnimationFrame(animationFrameId);
   }
 
   // Pause briefly after scoring so players can prepare
   function pauseGameBriefly() {
     isPaused = true;
     showMessage('Point scored! Get ready...', 2000);
+
+    // Cancel animation frame to pause updates
+    cancelAnimationFrame(animationFrameId);
+
     setTimeout(() => {
       if (isRunning) {
         isPaused = false;
         hideMessage();
+        lastTime = 0; // reset lastTime to avoid large dt
         animationFrameId = requestAnimationFrame(gameLoop);
       }
     }, 2000);
@@ -392,6 +398,7 @@
       hideMessage();
       pauseBtn.disabled = false;
       startBtn.disabled = true;
+      lastTime = 0; // reset to avoid jump on resume
       animationFrameId = requestAnimationFrame(gameLoop);
     }
   });
@@ -401,9 +408,6 @@
   });
 
   resetBtn.addEventListener('click', resetGameHandler);
-
-  // Optional: touch controls (basic example)
-  // For brevity, not implemented here but can be added similarly to key handlers
 
 })();
 </script>
