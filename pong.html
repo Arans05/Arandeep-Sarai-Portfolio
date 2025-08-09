@@ -344,16 +344,22 @@
   // Pause briefly after scoring so players can prepare
   function pauseGameBriefly() {
     isPaused = true;
+
+    // Clear input so paddles don't stay stuck
+    input.w = false;
+    input.s = false;
+    input.ArrowUp = false;
+    input.ArrowDown = false;
+
     showMessage('Point scored! Get ready...', 2000);
 
-    // Cancel animation frame to pause updates
     cancelAnimationFrame(animationFrameId);
 
     setTimeout(() => {
       if (isRunning) {
         isPaused = false;
         hideMessage();
-        lastTime = 0; // reset lastTime to avoid large dt
+        lastTime = performance.now(); // proper timestamp to avoid big dt
         animationFrameId = requestAnimationFrame(gameLoop);
       }
     }, 2000);
@@ -398,7 +404,7 @@
       hideMessage();
       pauseBtn.disabled = false;
       startBtn.disabled = true;
-      lastTime = 0; // reset to avoid jump on resume
+      lastTime = performance.now(); // reset time on resume
       animationFrameId = requestAnimationFrame(gameLoop);
     }
   });
@@ -413,3 +419,4 @@
 </script>
 </body>
 </html>
+
