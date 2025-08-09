@@ -4,35 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arandeep Sarai - University Student Portfolio</title>
-    <!-- Pulling in Tailwind CSS from CDN so I can use utility classes easily -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Using Inter font from Google Fonts for a clean, modern look -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Set up base font, background color, and text color for the whole page */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* Nice light gray so content stands out */
+            background-color: #f3f4f6; /* Light gray background */
             color: #333;
-            /* No extra padding-top here because header will be in normal page flow */
+            /* No padding-top on body, header will appear in normal flow */
         }
-        /* Container keeps content nicely centered and limits max width */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 1.5rem;
         }
-        /* Section titles stand out with bigger font and bold weight, centered */
         .section-title {
-            font-size: 2.5rem; /* Big enough to grab attention */
-            font-weight: 800; /* Extra bold to pop */
-            color: #1f2937; /* Dark gray for good contrast */
-            margin-bottom: 2.5rem; /* Adds breathing space below titles */
+            font-size: 2.5rem; /* Slightly larger title */
+            font-weight: 800; /* Extra bold */
+            color: #1f2937; /* Gray-900 */
+            margin-bottom: 2.5rem; /* More space */
             text-align: center;
-            position: relative; /* Needed for the underline effect */
+            position: relative;
             padding-bottom: 0.5rem;
         }
-        /* This creates a nice indigo underline below section titles */
         .section-title::after {
             content: '';
             position: absolute;
@@ -41,82 +36,75 @@
             transform: translateX(-50%);
             width: 80px;
             height: 4px;
-            background-color: #4f46e5; /* Indigo color matches brand vibe */
+            background-color: #4f46e5; /* Indigo-600 underline */
             border-radius: 2px;
         }
-        /* Cards for projects and mini games: white background with rounded corners and subtle shadow */
         .card {
             background-color: #ffffff;
-            border-radius: 1rem; /* Rounded corners to soften edges */
-            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Soft but noticeable shadow */
+            border-radius: 1rem; /* More rounded-xl */
+            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Stronger shadow */
             padding: 2rem;
             margin-bottom: 1.5rem;
-            /* Smooth animation when hovered */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        /* Slightly lifts card on hover for interactive feel */
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px); /* Lift effect on hover */
             box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.15), 0 6px 10px -3px rgba(0, 0, 0, 0.08);
         }
-        /* Primary button style with indigo background and rounded edges */
         .btn-primary {
             display: inline-block;
-            background-color: #4f46e5; /* Indigo for brand consistency */
+            background-color: #4f46e5; /* Indigo-600 */
             color: #ffffff;
-            padding: 0.85rem 2rem; /* Comfortable clickable size */
-            border-radius: 0.65rem;
+            padding: 0.85rem 2rem; /* Slightly larger padding */
+            border-radius: 0.65rem; /* More rounded */
             text-decoration: none;
-            font-weight: 700; /* Make text bold for clarity */
-            /* Smooth transitions for hover effects */
+            font-weight: 700; /* Bolder font */
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        /* Darken and lift button slightly on hover to indicate interactivity */
         .btn-primary:hover {
-            background-color: #4338ca; /* Slightly darker indigo */
+            background-color: #4338ca; /* Indigo-700 */
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
-        /* Social media icons sized and spaced nicely to sit inline with text */
         .social-icon {
             width: 24px;
             height: 24px;
             vertical-align: middle;
             margin-right: 8px;
         }
-        /* Project images fixed height with cover to keep consistent aspect ratio and cropping */
+        /* Responsive image styling for projects */
         .project-image {
             width: 100%;
-            height: 200px; /* Fixed height so cards line up */
-            object-fit: cover; /* Crop image to fill without distortion */
-            border-radius: 0.75rem;
-            margin-bottom: 1.25rem;
+            height: 200px; /* Fixed height for consistency */
+            object-fit: cover; /* Ensures image covers the area, cropping if necessary */
+            border-radius: 0.75rem; /* Slightly more rounded */
+            margin-bottom: 1.25rem; /* More space */
         }
-        /* Enable smooth scrolling behavior for anchor links */
+        /* Custom scroll-behavior for smooth scrolling */
         html {
             scroll-behavior: smooth;
         }
-        /* Dropdown menus styling for mini games navigation */
+
+        /* Dropdown specific styles */
         .dropdown {
             position: relative;
             display: inline-block;
         }
         .dropdown-content {
-            display: none; /* Hide by default */
+            display: none;
             position: absolute;
             background-color: #f9f9f9;
             min-width: 160px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1; /* Keep dropdown on top */
+            z-index: 1;
             border-radius: 0.5rem;
-            overflow: hidden; /* Round corners apply properly */
-            left: 50%; /* Center horizontally relative to parent */
+            overflow: hidden; /* Ensures rounded corners apply to children */
+            left: 50%; /* Center dropdown relative to parent */
             transform: translateX(-50%);
-            top: 100%; /* Appear below parent */
-            margin-top: 8px; /* Small gap from parent link */
+            top: 100%; /* Position below the parent */
+            margin-top: 8px; /* Space below parent */
         }
-        /* Dropdown links styling */
         .dropdown-content a {
             color: #333;
             padding: 12px 16px;
@@ -125,54 +113,50 @@
             text-align: left;
             transition: background-color 0.2s ease;
         }
-        /* Change background on hover for dropdown items for better UX */
         .dropdown-content a:hover {
-            background-color: #e2e8f0;
+            background-color: #e2e8f0; /* Light gray hover */
         }
-        /* Show dropdown content when hovering over parent */
         .dropdown:hover .dropdown-content {
             display: block;
         }
-        /* Hamburger menu styles hidden on desktop, only shows on mobile */
+
+        /* Mobile Menu (Hamburger) */
         .hamburger-menu {
-            display: none; /* Hide by default on bigger screens */
+            display: none; /* Hidden by default on desktop */
             flex-direction: column;
             cursor: pointer;
             padding: 10px;
-            z-index: 60; /* Make sure it's above other elements */
+            z-index: 60; /* Above header */
         }
-        /* Bars for hamburger icon */
         .hamburger-menu .bar {
             width: 25px;
             height: 3px;
-            background-color: #333; /* Dark bars for good visibility */
+            background-color: #333; /* Always dark for static header */
             margin: 4px 0;
             transition: 0.4s;
             border-radius: 2px;
         }
-        /* Mobile nav starts hidden and slides in from right */
+
         .mobile-nav-links {
-            display: none;
+            display: none; /* Hidden by default */
             flex-direction: column;
-            position: fixed; /* Fixed to viewport for full screen menu */
+            position: fixed; /* Use fixed for mobile menu overlay */
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh; /* Full height so it covers everything */
+            height: 100vh; /* Full viewport height */
             background-color: #fff;
             justify-content: center;
             align-items: center;
             gap: 20px;
-            z-index: 999; /* Above all other content */
-            transform: translateX(100%); /* Off screen initially */
+            z-index: 999; /* High z-index for mobile overlay */
+            transform: translateX(100%); /* Start off-screen */
             transition: transform 0.5s ease-in-out;
         }
-        /* Show mobile menu when toggled open */
         .mobile-nav-links.open {
-            transform: translateX(0);
+            transform: translateX(0); /* Slide in */
             display: flex;
         }
-        /* Bigger font and padding on mobile nav links for easier tapping */
         .mobile-nav-links a, .mobile-nav-links .dropdown > a {
             font-size: 1.8rem;
             color: #333;
@@ -180,13 +164,11 @@
             border-radius: 0.5rem;
             transition: background-color 0.2s;
         }
-        /* Subtle background highlight on hover for mobile nav */
         .mobile-nav-links a:hover, .mobile-nav-links .dropdown > a:hover {
             background-color: #f3f4f6;
         }
-        /* Adjust dropdown styling for mobile to fit inline nicely */
         .mobile-nav-links .dropdown-content {
-            position: static; /* Remove absolute positioning */
+            position: static; /* Remove absolute positioning for mobile */
             box-shadow: none;
             background-color: transparent;
             width: auto;
@@ -194,12 +176,12 @@
             margin-top: 0;
             padding-left: 20px; /* Indent dropdown items */
         }
-        /* Smaller font and padding for dropdown items on mobile */
         .mobile-nav-links .dropdown-content a {
             font-size: 1.5rem;
             padding: 8px 16px;
         }
-        /* Skill tags have a slight lift and shadow on hover for a subtle interactive effect */
+
+        /* Skill tag animation */
         .skill-tag {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
@@ -207,7 +189,8 @@
             transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        /* Scroll down arrow positioned in hero with bounce animation to encourage scrolling */
+
+        /* Scroll Down Arrow Animation (remains in hero) */
         .scroll-down-arrow {
             position: absolute;
             bottom: 40px;
@@ -217,18 +200,16 @@
             cursor: pointer;
             z-index: 2;
         }
-        /* Size and color of the arrow, plus fade effect on hover */
         .scroll-down-arrow svg {
             width: 40px;
             height: 40px;
-            color: #1f2937; /* Dark color so it stands out */
+            color: #1f2937; /* Dark color for arrow on white background */
             opacity: 0.8;
             transition: opacity 0.3s ease;
         }
         .scroll-down-arrow svg:hover {
             opacity: 1;
         }
-        /* Keyframes for bounce animation */
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% {
                 transform: translateY(0) translateX(-50%);
@@ -240,77 +221,78 @@
                 transform: translateY(-5px) translateX(-50%);
             }
         }
-        /* Header styling: white background with subtle shadow, sticky to top */
+
+        /* Header is now a regular block element */
         header {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: sticky; /* Stick header at top when scrolling */
+            background-color: #ffffff; /* Always white */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Always has shadow */
+            position: sticky; /* Make it sticky when it comes into view */
             top: 0;
-            z-index: 1000; /* Make sure header is above everything else */
+            z-index: 1000; /* Ensure it stays on top when sticky */
         }
-        /* Navigation link colors and hover effect for better usability */
         header .nav-link {
-            color: #333;
+            color: #333; /* Always dark links */
         }
         header .nav-link:hover {
-            color: #4f46e5; /* Indigo highlight on hover */
-            background-color: #f3f4f6; /* Light gray background on hover */
+            color: #4f46e5; /* Indigo on hover */
+            background-color: #f3f4f6; /* Light gray hover */
         }
-        /* Hero section takes full viewport height and uses split background effect */
+
+        /* Hero section is full screen and no padding adjustment on body */
         .hero-section {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative; /* Needed for positioning scroll arrow */
-            /* Background split with light blue left side and subtle patterned right side */
-            background-color: #ffffff;
+            position: relative; /* For the scroll arrow */
+            /* New split background styling */
+            background-color: #ffffff; /* Base white background */
             background-image:
-                linear-gradient(to right, #ADD8E6 50%, transparent 50%), /* Left half light blue */
+                /* Solid blue gradient for the left side (light blue to white, matching logo) */
+                linear-gradient(to right, #ADD8E6 50%, transparent 50%), /* Light blue to white */
+                /* Pattern for the right side (subtle diagonal lines) - now darker blue */
                 repeating-linear-gradient(
                     45deg,
-                    rgba(26, 32, 44, 0.12) 0px,
+                    rgba(26, 32, 44, 0.12) 0px, /* Darker blue shade, more opaque */
                     rgba(26, 32, 44, 0.12) 1px,
                     transparent 1px,
                     transparent 10px
                 ),
                 repeating-linear-gradient(
                     -45deg,
-                    rgba(26, 32, 44, 0.12) 0px,
+                    rgba(26, 32, 44, 0.12) 0px, /* Darker blue shade, more opaque */
                     rgba(26, 32, 44, 0.12) 1px,
                     transparent 1px,
                     transparent 10px
                 );
-            background-size: 100% 100%, 20px 20px, 20px 20px;
-            background-position: 0 0, 0 0, 0 0;
-            background-repeat: no-repeat, repeat, repeat;
+            background-size: 100% 100%, 20px 20px, 20px 20px; /* Sizes for each layer */
+            background-position: 0 0, 0 0, 0 0; /* Positions for each layer */
+            background-repeat: no-repeat, repeat, repeat; /* No repeat for solid, repeat for patterns */
         }
-        /* AS logo image styling for size and subtle shadow */
+
+        /* AS Logo Image Styling */
         .as-logo-img {
-            width: 150px;
-            height: auto; /* Keep aspect ratio */
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3)); /* Adds a nice subtle depth */
-            border: none; /* Make sure no default border */
-            outline: none; /* Remove focus outline */
+            width: 150px; /* Adjust size as needed */
+            height: auto; /* Maintain aspect ratio */
+            margin-bottom: 1.5rem; /* Space below logo */
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3)); /* Subtle shadow for image */
+            border: none; /* Explicitly remove border */
+            outline: none; /* Explicitly remove outline */
         }
     </style>
 </head>
 <body>
 
-    <!-- Hero Section: first thing visitors see, full screen with logo and call to action -->
+    <!-- Hero Section (Full screen first) -->
     <section class="text-gray-900 py-20 md:py-32 text-center rounded-b-xl shadow-lg hero-section">
         <div class="container flex flex-col items-center justify-center">
-            <!-- Logo image with fallback in case it fails to load -->
+            <!-- AS Logo (Image) -->
             <img src="ASlogo.png.001.png" alt="Arandeep Sarai Logo" class="as-logo-img animate-fade-in-down" onerror="this.onerror=null;this.src='https://placehold.co/150x150/000000/FFFFFF?text=AS';">
-            <!-- Main heading with fade in animation -->
             <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down text-gray-900">Arandeep Sarai</h1>
-            <!-- Empty subheading placeholder in case I want to add text later -->
-            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up text-gray-900"></p>
-            <!-- Button that scrolls to projects section with bounce animation to catch attention -->
+            <p class="text-xl md:text-2xl mb-8 animate-fade-in-up text-gray-900"></p> <!-- Empty subheading as requested -->
             <a href="#projects" class="btn-primary bg-gray-900 text-white animate-bounce-in">View My Work</a>
         </div>
-        <!-- Bouncing arrow encouraging users to scroll down -->
+        <!-- Scroll Down Arrow -->
         <a href="#about" class="scroll-down-arrow">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -318,18 +300,16 @@
         </a>
     </section>
 
-    <!-- Header navigation bar below hero, stays sticky at top on scroll -->
+    <!-- Header/Navigation (Appears after hero, then becomes sticky) -->
     <header id="mainHeader" class="py-4 w-full">
         <nav class="container flex justify-between items-center">
-            <!-- Site title as a clickable link to top -->
             <a href="#" class="text-2xl font-bold rounded-lg p-2 transition-colors duration-0 ease-in-out nav-link">Arandeep Sarai</a>
             
-            <!-- Desktop nav links with dropdown for mini games -->
+            <!-- Desktop Navigation Links -->
             <ul class="flex space-x-6 desktop-nav-links">
                 <li><a href="#about" class="font-medium p-2 rounded-lg nav-link">About</a></li>
                 <li><a href="#projects" class="font-medium p-2 rounded-lg nav-link">Projects</a></li>
                 
-                <!-- Dropdown for mini games -->
                 <li class="dropdown">
                     <a href="#minigames" class="font-medium p-2 rounded-lg nav-link">
                         Mini Games <span style="font-size: 0.7em; vertical-align: middle;">▼</span>
@@ -344,19 +324,18 @@
                 <li><a href="#contact" class="font-medium p-2 rounded-lg nav-link">Contact</a></li>
             </ul>
 
-            <!-- Hamburger icon for mobile menu toggle -->
+            <!-- Hamburger Menu for Mobile -->
             <div class="hamburger-menu" id="hamburgerMenu">
                 <div class="bar"></div>
                 <div class="bar"></div>
                 <div class="bar"></div>
             </div>
 
-            <!-- Mobile navigation hidden offscreen by default -->
+            <!-- Mobile Navigation Links (Off-screen by default) -->
             <ul class="mobile-nav-links" id="mobileNavLinks">
                 <li><a href="#about" class="text-gray-700">About</a></li>
                 <li><a href="#projects" class="text-gray-700">Projects</a></li>
                 
-                <!-- Mobile dropdown toggled manually -->
                 <li class="dropdown">
                     <a href="#minigames" class="text-gray-700" onclick="event.preventDefault(); this.nextElementSibling.classList.toggle('open');">
                         Mini Games <span style="font-size: 0.7em; vertical-align: middle;">▼</span>
@@ -373,116 +352,199 @@
         </nav>
     </header>
 
-    <!-- About Me section with clean layout and nice spacing -->
+    <!-- About Me Section -->
     <section id="about" class="py-16 md:py-24 bg-white rounded-xl my-8 mx-4 shadow-md">
         <div class="container">
             <h2 class="section-title">About Me</h2>
-            <div class="flex flex-col md:flex-row items-start md:space-x-8"> <!-- Align items at top for better text flow -->
-                <!-- Removed image to keep it simple and focus on text -->
-                <div class="md:w-full text-gray-700 text-lg leading-relaxed">
+            <div class="flex flex-col md:flex-row items-start md:space-x-8"> <!-- Changed items-center to items-start -->
+                <!-- Removed the md:w-1/3 div for the image -->
+                <div class="md:w-full text-gray-700 text-lg leading-relaxed text-left"> <!-- Changed md:w-2/3 to md:w-full -->
+                    <p class="mb-4">
+                        I am a third-year Computer Science student at Huddersfield University. My academic journey has equipped me with a strong foundation in AI, data analysis, and cloud computing.
+                    </p>
+                    <p class="mb-4">
+                        I am deeply interested in exploring new technologies and solving complex challenges. I thrive in collaborative environments and am always eager to expand my knowledge base.
+                    </p>
                     <p>
-                        Hey! I’m Arandeep Sarai — a Computer Science student at the University of Huddersfield, currently in my second year. 
-                        I’m passionate about software development and enjoy building projects that challenge me to learn and grow. 
-                        When I’m not coding, I’m usually at the gym, out playing football, or hanging with friends. 
-                        I love combining creativity with technology and always look for new ways to improve my skills.
+                        Beyond academics, I enjoy going for walks, hitting the gym, and playing football with friends. These activities help me stay balanced and bring a different perspective to my problem-solving skills.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Projects section with cards showcasing my best work -->
-    <section id="projects" class="py-16 md:py-24 my-8 mx-4">
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 md:py-24 bg-gray-50 rounded-xl my-8 mx-4 shadow-md">
         <div class="container">
-            <h2 class="section-title">Projects</h2>
-            <!-- Each project inside a card with image, description and link -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Project 1 card -->
-                <div class="card">
-                    <img src="fitness_app.png" alt="Fitness App Screenshot" class="project-image">
-                    <h3 class="text-2xl font-semibold mb-2">Fitness App</h3>
-                    <p class="mb-4">A React Native app that helps users track workouts, set fitness goals, and monitor progress over time.</p>
-                    <a href="https://github.com/arandeep/fitness-app" target="_blank" class="btn-primary">View on GitHub</a>
+            <h2 class="section-title">My Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8"> <!-- Removed lg:grid-cols-3 as only 2 projects now -->
+
+                <!-- Project Card 1: Uni-life Web Application -->
+                <div class="card transform hover:scale-105 transition-transform duration-300">
+                    <img src="Screenshot 2025-06-27 at 17.27.14.png" alt="Uni-life Web Application Screenshot" class="project-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E0F2F7/007BFF?text=Image+Load+Error';">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Uni-life Web Application (International Student Support)</h3>
+                    <p class="text-gray-600 mb-4">
+                        A web application designed to assist international students with budgeting and navigating university life, offering resources on finances, accommodation, and cultural adaptation.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/Arans05/Uni-life" target="_blank" class="text-indigo-600 hover:underline font-medium">GitHub Repo</a>
+                        <a href="https://Arans05.github.io/Uni-life/" target="_blank" class="text-indigo-600 hover:underline font-medium">Website</a>
+                    </div>
                 </div>
-                <!-- Project 2 card -->
-                <div class="card">
-                    <img src="student_support_website.png" alt="Student Support Website Screenshot" class="project-image">
-                    <h3 class="text-2xl font-semibold mb-2">Student Support Website</h3>
-                    <p class="mb-4">A responsive website built with HTML, CSS, and JavaScript to provide resources and support for university students.</p>
-                    <a href="https://github.com/arandeep/student-support" target="_blank" class="btn-primary">View on GitHub</a>
+
+                <!-- Project Card 2: Gym App -->
+                <div class="card transform hover:scale-105 transition-transform duration-300">
+                    <img src="https://placehold.co/600x400/FFECEC/FF6347?text=Gym+App+Image" alt="Gym App Project" class="project-image">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Gym App (Upcoming)</h3>
+                    <p class="text-gray-600 mb-4">
+                        Developed a mobile application to track workouts, manage fitness routines, and monitor progress, featuring customizable workout plans, exercise library, and progress charts.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" target="_blank" class="text-indigo-600 hover:underline font-medium">GitHub Repo</a>
+                        <!-- <a href="#" target="_blank" class="text-indigo-600 hover:underline font-medium">Live Demo</a> If applicable -->
+                    </div>
                 </div>
-                <!-- Project 3 card -->
-                <div class="card">
-                    <img src="heart_disease_model.png" alt="Heart Disease Prediction Model Screenshot" class="project-image">
-                    <h3 class="text-2xl font-semibold mb-2">Heart Disease Prediction Model</h3>
-                    <p class="mb-4">A machine learning model built in Python using scikit-learn that predicts heart disease risk based on health data.</p>
-                    <a href="https://github.com/arandeep/heart-disease-predictor" target="_blank" class="btn-primary">View on GitHub</a>
+
+                <!-- Project Card 3: Movie Recommendation Website -->
+                <div class="card transform hover:scale-105 transition-transform duration-300">
+                    <img src="Screenshot 2025-07-17 at 22.45.11.png" alt="Movie Recommendation Website Screenshot" class="project-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFD700/000000?text=Movie+App+Image';">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Movie Recommendation Website</h3>
+                    <p class="text-gray-600 mb-4">
+                        Designed and developed a web-based movie recommendation platform using Python for AI and database management to suggest films based on user preferences.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://ai-movie-recommender-ugq3.onrender.com/" target="_blank" class="text-indigo-600 hover:underline font-medium">Live Demo</a>
+                        <!-- Add GitHub Repo link if available -->
+                        <!-- <a href="#" target="_blank" class="text-indigo-600 hover:underline font-medium">GitHub Repo</a> -->
+                    </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Skills section listing my technical skills with subtle hover effect -->
-    <section id="skills" class="py-16 md:py-24 bg-white rounded-xl my-8 mx-4 shadow-md">
+    <!-- Mini Games Section -->
+    <section id="minigames" class="py-16 md:py-24 bg-white rounded-xl my-8 mx-4 shadow-md">
         <div class="container">
-            <h2 class="section-title">Skills</h2>
-            <div class="flex flex-wrap gap-4 justify-center">
-                <!-- Each skill tagged with hover effect to show I’m proud of them -->
-                <span class="skill-tag bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-lg cursor-default select-none">Java</span>
-                <span class="skill-tag bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-lg cursor-default select-none">Python</span>
-                <span class="skill-tag bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-lg cursor-default select-none">JavaScript</span>
-                <span class="skill-tag bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-lg cursor-default select-none">HTML & CSS</span>
-                <span class="skill-tag bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-lg cursor-default select-none">React</span>
-                <span class="skill-tag bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-lg cursor-default select-none">SQL</span>
-                <span class="skill-tag bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-lg cursor-default select-none">Git</span>
-                <span class="skill-tag bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-lg cursor-default select-none">Linux</span>
+            <h2 class="section-title">Mini Games</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Mini Game Card 1: Classic Pong Game -->
+                <div class="card transform hover:scale-105 transition-transform duration-300">
+                    <img src="Screenshot 2025-06-29 at 17.14.25.png" alt="Classic Pong Game Screenshot" class="project-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/8B0000/FFFFFF?text=Image+Load+Error';">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Classic Pong Game</h3>
+                    <p class="text-gray-600 mb-4">
+                        A simple recreation of the classic Pong game using JavaScript and HTML Canvas, demonstrating basic game physics and user input handling.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="pong.html" target="_blank" class="btn-primary">Play Game</a>
+                    </div>
+                </div>
+
+                <!-- Mini Game Card 2: Classic Snake Game -->
+                <div class="card transform hover:scale-105 transition-transform duration-300">
+                    <img src="Screenshot 2025-07-11 at 18.43.17.png" alt="Classic Snake Game Screenshot" class="project-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/D0F0C0/4CAF50?text=Image+Load+Error';">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Classic Snake Game</h3>
+                    <p class="text-gray-600 mb-4">
+                        A timeless arcade game where you control a snake, eating food to grow longer while avoiding collisions with walls and its own tail.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="snake.html" target="_blank" class="btn-primary">Play Game</a>
+                    </div>
+                </div>
+
+                <!-- Mini Game Card 3: Sequence Memory Game -->
+                <div class="card transform hover:scale-105 transition-transform duration-300">
+                    <img src="Screenshot 2025-07-11 at 19.06.49.png" alt="Sequence Memory Game Screenshot" class="project-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E6E6FA/8A2BE2?text=Image+Load+Error';">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Sequence Memory Game</h3>
+                    <p class="text-gray-600 mb-4">
+                        Test your short-term memory by recalling and repeating increasingly long sequences of flashing lights on a grid.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="sequence_memory.html" target="_blank" class="btn-primary">Play Game</a>
+                    </div>
+                </div>
+
+                <!-- Add more mini game cards as needed -->
+
             </div>
         </div>
     </section>
 
-    <!-- Contact section with simple contact info and social links -->
-    <section id="contact" class="py-16 md:py-24 my-8 mx-4">
-        <div class="container text-center">
-            <h2 class="section-title">Get in Touch</h2>
-            <p class="mb-4 text-lg">I’m open to opportunities and always happy to chat! You can reach me via email or on social media.</p>
-            <p class="mb-6 font-semibold">Email: <a href="mailto:arandeep@example.com" class="text-indigo-600 hover:underline">arandeep@example.com</a></p>
-            <!-- Social media icons with links to profiles -->
-            <div class="flex justify-center space-x-6">
-                <a href="https://github.com/arandeep" target="_blank" aria-label="GitHub">
-                    <img src="github-icon.svg" alt="GitHub" class="social-icon">
+    <!-- Skills Section -->
+    <section id="skills" class="py-16 md:py-24 bg-gray-50 rounded-xl my-8 mx-4 shadow-md">
+        <div class="container">
+            <h2 class="section-title">My Skills</h2>
+            <div class="text-center">
+                <div class="flex flex-wrap justify-center gap-4 text-lg">
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium skill-tag hover:bg-indigo-200">HTML & CSS</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium skill-tag hover:bg-indigo-200">JavaScript</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium skill-tag hover:bg-indigo-200">Python</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium skill-tag hover:bg-indigo-200">Java</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium skill-tag hover:bg-indigo-200">SQL</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium skill-tag hover:bg-indigo-200">Microsoft Azure</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium skill-tag hover:bg-indigo-200">AWS</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium skill-tag hover:bg-indigo-200">Data Analysis</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium skill-tag hover:bg-indigo-200">Problem Solving</span>
+                    <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full font-medium skill-tag hover:bg-indigo-200">Teamwork</span>
+                    <!-- Add more skills as needed -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 md:py-24 bg-white rounded-xl my-8 mx-4 shadow-md">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="text-center text-gray-700 text-lg mb-8">
+                I'm always open to new opportunities and collaborations. Feel free to reach out!
+            </p>
+            <div class="flex flex-col items-center space-y-4">
+                <a href="https://www.linkedin.com/in/arandeep-s-ba3477162/" target="_blank" class="btn-primary flex items-center">
+                    <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 6.5h-5v16h5V10zM24 16c0-6.42-4.35-9.42-8.5-9.42-4 0-6.06 2.06-7.94 4.15V10H2.5S3 14.92 3 16V26h5V17.58c0-1.04.14-1.93 1.17-1.93 1.22 0 1.7.92 1.7 2.27V26h5V17.06c0-2.33-1.07-4.14-3.72-4.14-1.95 0-2.79 1.16-3.25 1.95V13h-.01z"></path></svg>
+                    Connect on LinkedIn
                 </a>
-                <a href="https://linkedin.com/in/arandeep" target="_blank" aria-label="LinkedIn">
-                    <img src="linkedin-icon.svg" alt="LinkedIn" class="social-icon">
-                </a>
-                <a href="https://twitter.com/arandeep" target="_blank" aria-label="Twitter">
-                    <img src="twitter-icon.svg" alt="Twitter" class="social-icon">
+                <a href="https://github.com/Arans05" target="_blank" class="btn-primary flex items-center">
+                    <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.417 2.866 8.156 6.839 9.479.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.465-1.11-1.465-.908-.62.069-.608.069-.608 1.007.07 1.532 1.03 1.532 1.03.89 1.528 2.335 1.085 2.902.829.091-.643.354-1.085.645-1.336-2.22-.253-4.555-1.11-4.555-4.945 0-1.092.39-1.983 1.03-2.684-.104-.254-.447-1.274.098-2.65 0 0 .84-.27 2.75 1.025A9.303 9.303 0 0112 5.05c.85.006 1.7.11 2.502.324 1.902-1.295 2.74-1.025 2.74-1.025.546 1.376.203 2.396.098 2.65.64.701 1.03 1.592 1.03 2.684 0 3.843-2.339 4.686-4.566 4.935.359.307.678.915.678 1.846 0 1.335-.012 2.41-.012 2.727 0 .268.18.579.688.482C21.137 20.187 24 16.448 24 12.017 24 6.484 19.522 2 14 2h-2z" clip-rule="evenodd"></path></svg>
+                    My GitHub
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Footer with simple copyright -->
-    <footer class="bg-gray-100 text-center py-6 mt-8">
-        <p class="text-gray-600">&copy; 2025 Arandeep Sarai. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 text-center rounded-t-xl shadow-inner">
+        <div class="container">
+            <p>&copy; 2025 Arandeep Sarai. All rights reserved.</p>
+            <p class="mt-2">Built with ❤️ and Tailwind CSS.</p>
+        </div>
     </footer>
 
-    <!-- JavaScript for mobile menu toggle -->
     <script>
-        // Get references to hamburger and mobile nav
-        const hamburger = document.getElementById('hamburgerMenu');
-        const mobileNav = document.getElementById('mobileNavLinks');
+        // JavaScript for mobile hamburger menu
+        let hamburgerMenu;
+        let mobileNavLinks;
 
-        // Toggle mobile navigation visibility when hamburger is clicked
-        hamburger.addEventListener('click', () => {
-            mobileNav.classList.toggle('open');
-        });
+        // Query elements inside window.onload to ensure they are available
+        window.onload = () => {
+            hamburgerMenu = document.getElementById('hamburgerMenu');
+            mobileNavLinks = document.getElementById('mobileNavLinks');
+            
+            // Add event listeners only after elements are found
+            if (hamburgerMenu && mobileNavLinks) {
+                hamburgerMenu.addEventListener('click', () => {
+                    mobileNavLinks.classList.toggle('open');
+                });
 
-        // Close mobile menu when clicking outside or on a nav link (optional)
-        mobileNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.remove('open');
-            });
-        });
+                // Close mobile menu when a link is clicked
+                mobileNavLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNavLinks.classList.remove('open');
+                    });
+                });
+            }
+        };
     </script>
 
 </body>
